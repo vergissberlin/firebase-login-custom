@@ -16,10 +16,9 @@ var FirebaseLoginCustom = require('../../dist/firebase-login-custom');
 
 
 // Login process
-var firebaseRef = new Firebase('https://' + process.env.FIREBASE_ID + '.firebaseio.com/test');
+var firebaseRef = new Firebase('https://' + process.env.FIREBASE_ID + '.firebaseio.com/test/unique');
 FirebaseLoginCustom(firebaseRef, {
-        uid: process.env.FIREBASE_UID,
-        group: 'mod'
+        uid: process.env.FIREBASE_UID
     },
     {
         debug: true,
@@ -35,9 +34,8 @@ FirebaseLoginCustom(firebaseRef, {
             console.log(data);
 
             // Try to write test data
-            firebaseRef.set({
-                testOne: Math.round(Math.random() * 100000),
-                testTwo: Math.round(Math.random() * 100000)
+            firebaseRef.push({
+                name: 'Ursula'
             });
 
             setTimeout(function () {
@@ -46,14 +44,6 @@ FirebaseLoginCustom(firebaseRef, {
         }
     }
 );
-
-// Listener
-firebaseRef.child('testOne').on('value', function (snapshot) {
-    console.log('testOne: ' + snapshot.val());  // Alerts 'San Francisco'
-});
-firebaseRef.child('testTwo').on('value', function (snapshot) {
-    console.log('testTwo: ' + snapshot.val());  // Alerts 'San Francisco'
-});
 
 // Check exit code
 process.on('exit', function (code) {
