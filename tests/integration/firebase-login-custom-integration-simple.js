@@ -32,7 +32,7 @@ FirebaseLoginCustom(firebaseRef, {
             console.log(error);
             process.exit(1);
         } else {
-            console.log(data);
+            // console.log(data);
 
             // Try to write test data
             firebaseRef.set({
