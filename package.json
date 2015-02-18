@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/integration/firebase-login-custom-integration-child.js && node tests/integration/firebase-login-custom-integration-simple.js && node tests/integration/firebase-login-custom-integration-unique.js"
   },
   "repository": {
     "type": "git",

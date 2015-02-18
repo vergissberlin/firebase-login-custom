@@ -7,7 +7,7 @@
  If you already done this, and setupt your Firebase Account
  your can run the test with:
 
- node tests/integration/firebase-login-custom-integration.js
+ node tests/integration/firebase-login-custom-integration-simple.js
  */
 
 // Requirements

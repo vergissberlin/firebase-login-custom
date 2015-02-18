@@ -7,7 +7,7 @@
  If you already done this, and setupt your Firebase Account
  your can run the test with:
 
- node tests/integration/firebase-login-custom-integration.js
+ node tests/integration/firebase-login-custom-integration-child.js
  */
 
 // Requirements
@@ -32,7 +32,6 @@ FirebaseLoginCustom(firebaseRef, {
             process.exit(1);
         } else {
             console.log(data);
-
 
             // Try to write test data
             firebaseRef.child(data.uid).set({
