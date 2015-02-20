@@ -1,7 +1,7 @@
 {
   "name": "firebase-login-custom",
-  "version": "0.0.1",
-  "description": "Custom login to firebase",
+  "version": "0.0.2",
+  "description": "This package is a wrapper to firebase custom login including all dependencies with the exception of firebase it self.",
   "main": "dist/firbase-login-custom.js",
   "directories": {
     "test": "tests"
