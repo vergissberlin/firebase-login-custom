@@ -1,8 +1,10 @@
 firebase-login-custom
 =====================
 
-[![Dependency Status](https://gemnasium.com/vergissberlin/firebase-login-custom.svg)](https://gemnasium.com/vergissberlin/firebase-login-custom)
 [![Build Status](https://travis-ci.org/vergissberlin/firebase-login-custom.svg)](https://travis-ci.org/vergissberlin/firebase-login-custom)
+[![Dependency Status](https://gemnasium.com/vergissberlin/firebase-login-custom.svg)](https://gemnasium.com/vergissberlin/firebase-login-custom)
+[![Issues](http://img.shields.io/github/issues/vergissberlin/firebase-login-custom.svg)]( https://github.com/vergissberlin/firebase-login-custom/issues "GitHub ticket system")
+[![npm version](https://img.shields.io/npm/v/firebase-login-custom.png)](https://npmjs.org/package/firebase-login-custom "View this project on npm")
 
 
 Authenticating Users with Email & Password
@@ -56,6 +58,7 @@ Issues
 
 Please report issues to [ticket system](https://github.com/vergissberlin/firebase-login-custom/issues).
 Pull requests are welcome here!
+
 
 Contributing
 ------------
