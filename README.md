@@ -1,6 +1,8 @@
 firebase-login-custom
 =====================
 
+[![Join the chat at https://gitter.im/vergissberlin/firebase-login-custom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vergissberlin/firebase-login-custom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/vergissberlin/firebase-login-custom.svg)](https://travis-ci.org/vergissberlin/firebase-login-custom)
 [![Dependency Status](https://gemnasium.com/vergissberlin/firebase-login-custom.svg)](https://gemnasium.com/vergissberlin/firebase-login-custom)
 [![Issues](http://img.shields.io/github/issues/vergissberlin/firebase-login-custom.svg)]( https://github.com/vergissberlin/firebase-login-custom/issues "GitHub ticket system")
