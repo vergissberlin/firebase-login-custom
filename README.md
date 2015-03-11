@@ -88,3 +88,7 @@ $ node tests/integration/firebase-login-custom-integration-unique.js
 Thanks to
 ---------
 1. A special thanks to the developers of **NodeJS** and **Firebase**.
+
+
+----
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vergissberlin/firebase-login-custom/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
