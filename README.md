@@ -92,3 +92,7 @@ Thanks to
 
 ----
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vergissberlin/firebase-login-custom/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vergissberlin/firebase-login-custom/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
