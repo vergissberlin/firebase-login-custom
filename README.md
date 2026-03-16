@@ -80,7 +80,12 @@ For CI, optional: set repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIR
 
 ## Releasing
 
-Releases are automated via GitHub Actions. To publish a new version:
+Releases are automated via GitHub Actions and [Release Please](https://github.com/googleapis/release-please).
+
+- **Release Please** (workflow `release-please`): On every push to `main`, it opens or updates a release PR based on [Conventional Commits](https://www.conventionalcommits.org/) in the commit history. Merge that PR to create a version tag; pushing the tag triggers the Release workflow below.
+- **Release** (workflow `Release`): Triggered by pushing a version tag (`v*`). It builds, publishes to npm, and creates a GitHub Release.
+
+To publish a new version:
 
 1. **Secrets** (Settings → Secrets and variables → Actions):
    - **NPM_TOKEN** (required): npm auth token with publish permission. Create at [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~youruser/tokens) (Automation or Publish).
