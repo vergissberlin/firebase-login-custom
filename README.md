@@ -65,17 +65,25 @@ Pull requests are welcome here! See [CONTRIBUTING.md](CONTRIBUTING.md) for how t
 Install locally
 ---------------
 
+Tests use a **Firebase mock** by default (no credentials needed). With env vars set, they use real Firebase.
+
 ```bash
 $ cd /path/to/firebase-login-custom
 $ pnpm install
 $ pnpm run build
+$ pnpm test
+```
+
+To run against real Firebase:
+
+```bash
 $ export FIREBASE_ID=<YOUR_TEST_ID>
 $ export FIREBASE_UID=<YOUR_USER_ID>
 $ export FIREBASE_SECRET=<YOUR_SECRET>
 $ pnpm test
 ```
 
-For CI, set the repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIREBASE_SECRET` so integration tests run on push/PR.
+For CI, optional: set repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIREBASE_SECRET` to run integration tests against real Firebase on push/PR.
 
 Releasing
 ---------

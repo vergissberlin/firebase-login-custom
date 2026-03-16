@@ -1,26 +1,18 @@
 /*
- Before run test, input follow on your CLI
- export FIREBASE_ID=<YOUR-FIREBASE-ID>
- export FIREBASE_UID=<YOUR-USER-ID>
- export FIREBASE_SECRET=<YOUR-SECRET>
-
- If you already done this, and setupt your Firebase Account
- your can run the test with:
-
- node tests/integration/firebase-login-custom-integration-unique.js
+ With mock (default): no env vars needed. With real Firebase:
+ export FIREBASE_ID=... FIREBASE_UID=... FIREBASE_SECRET=...
  */
 
-// Requirements (Firebase v5 app+database+auth only, no Firestore/grpc – Node 25 compatible)
-var createFirebaseRef = require('../firebase-ref-helper');
+var getFirebaseRef = require('../get-firebase-ref');
 var FirebaseLoginCustom = require('../../dist/firebase-login-custom');
 
-var firebaseRef = createFirebaseRef(process.env.FIREBASE_ID, 'test/unique');
+var firebaseRef = getFirebaseRef(process.env.FIREBASE_ID, 'test/unique');
 FirebaseLoginCustom(firebaseRef, {
-        uid: process.env.FIREBASE_UID
+        uid: process.env.FIREBASE_UID || 'mock-uid'
     },
     {
         debug: true,
-        secret: process.env.FIREBASE_SECRET,
+        secret: process.env.FIREBASE_SECRET || 'mock-secret',
         expires: +new Date() / 1000 + 4,
         notBefore: +new Date() / 1000
     },
@@ -38,7 +30,7 @@ FirebaseLoginCustom(firebaseRef, {
 
             setTimeout(function () {
                 process.exit(0);
-            }, 5000);
+            }, process.env.FIREBASE_ID ? 5000 : 0);
         }
     }
 );
