@@ -1,27 +1,21 @@
 /*
- Before run test, input follow on your CLI
- export FIREBASE_ID=<YOUR-FIREBASE-ID>
- export FIREBASE_UID=<YOUR-USER-ID>
- export FIREBASE_SECRET=<YOUR-SECRET>
-
- If you already done this, and setupt your Firebase Account
- your can run the test with:
-
- node tests/integration/firebase-login-custom-integration-simple.js
+ With mock (default): no env vars needed. With real Firebase:
+ export FIREBASE_ID=... FIREBASE_UID=... FIREBASE_SECRET=...
  */
 
-// Requirements (Firebase v5 for legacy ref.authWithCustomToken API)
-var Firebase = require('firebase');
-var FirebaseLoginCustom = require('../../dist/firebase-login-custom');
+var getFirebaseRef = require('../get-firebase-ref');
+var lib = require('../../dist/firebase-login-custom');
+var FirebaseLoginCustom = typeof lib === 'function' ? lib : (lib && lib.default);
+if (typeof FirebaseLoginCustom !== 'function') throw new Error('firebase-login-custom: expected function (run pnpm run build)');
 
-var firebaseRef = new Firebase('https://' + process.env.FIREBASE_ID + '.firebaseio.com/test/simple');
+var firebaseRef = getFirebaseRef(process.env.FIREBASE_ID, 'test/simple');
 FirebaseLoginCustom(firebaseRef, {
-        uid: process.env.FIREBASE_UID,
+        uid: process.env.FIREBASE_UID || 'mock-uid',
         group: 'mod'
     },
     {
         debug: true,
-        secret: process.env.FIREBASE_SECRET,
+        secret: process.env.FIREBASE_SECRET || 'mock-secret',
         expires: +new Date() / 1000 + 4,
         notBefore: +new Date() / 1000
     },
@@ -40,7 +34,7 @@ FirebaseLoginCustom(firebaseRef, {
 
             setTimeout(function () {
                 process.exit(0);
-            }, 5000);
+            }, process.env.FIREBASE_ID ? 5000 : 0);
         }
     }
 );

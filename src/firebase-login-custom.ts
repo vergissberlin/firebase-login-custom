@@ -17,6 +17,8 @@
  * @return  FirebaseLoginCustom
  */
 
+import FirebaseTokenGenerator from 'firebase-token-generator';
+
 export interface AuthData {
   uid: string;
   [key: string]: unknown;
@@ -29,6 +31,11 @@ export interface FirebaseLoginOption {
   notBefore?: number;
   secret: string;
 }
+
+/** Option type for inputs where secret is not yet validated */
+type FirebaseLoginOptionInput = Omit<FirebaseLoginOption, 'secret'> & {
+  secret?: string;
+};
 
 export type FirebaseLoginCallback = (
   error: Error | string | null,
@@ -55,11 +62,9 @@ export class FirebaseLoginCustom {
   constructor(
     ref: FirebaseRef,
     data: AuthData = { uid: '' },
-    option: FirebaseLoginOption = { ...defaultOption },
+    option: FirebaseLoginOptionInput = { ...defaultOption },
     callback: FirebaseLoginCallback = () => {}
   ) {
-    const FirebaseTokenGenerator = require('firebase-token-generator');
-
     if (typeof option.admin !== 'boolean') {
       option.admin = false;
     }
@@ -120,7 +125,7 @@ export class FirebaseLoginCustom {
 function firebaseLoginCustom(
   ref: FirebaseRef,
   data?: AuthData,
-  option?: FirebaseLoginOption,
+  option?: FirebaseLoginOptionInput,
   callback?: FirebaseLoginCallback
 ): void {
   new FirebaseLoginCustom(
