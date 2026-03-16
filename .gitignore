@@ -48,3 +48,6 @@ full-test-log.txt
 test-output.txt
 vitest-result.json
 vitest-out.txt
+test-result.txt
+lint-output.txt
+lint-result.txt

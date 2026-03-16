@@ -9,10 +9,18 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['src/**/*.ts'],
+    files: ['src/firebase-login-custom.ts', 'src/*.d.ts'],
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: __dirname,
+      },
+    },
+  },
+  {
+    files: ['src/__tests__/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
         tsconfigRootDir: __dirname,
       },
     },

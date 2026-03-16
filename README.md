@@ -70,6 +70,8 @@ pnpm test
 - **Unit tests** (Vitest): `pnpm run test:unit` (no build required). Watch mode: `pnpm run test:watch`.
 - **Integration tests**: `pnpm run test:integration` (builds first if needed). `pnpm test` runs unit then integration.
 
+**Pre-commit hooks (Husky):** Before each commit, `pnpm run lint` and `pnpm run test` run automatically. If either fails, the commit is aborted. Hooks are installed when you run `pnpm install` (via the `prepare` script).
+
 To run against real Firebase:
 
 ```bash
