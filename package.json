@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "description": "This package is a wrapper to firebase custom login including all dependencies with the exception of firebase it self.",
   "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
   "pnpm": {
     "neverBuiltDependencies": ["grpc"]
   },
@@ -18,7 +21,7 @@
     "watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
     "lint": "npx eslint src/",
-    "test": "node tests/integration/firebase-login-custom-integration-child.js && node tests/integration/firebase-login-custom-integration-simple.js && node tests/integration/firebase-login-custom-integration-unique.js"
+    "test": "node tests/run-integration.js"
   },
   "repository": {
     "type": "git",

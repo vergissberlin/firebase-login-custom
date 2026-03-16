@@ -10,11 +10,11 @@
  node tests/integration/firebase-login-custom-integration-child.js
  */
 
-// Requirements (Firebase v5 for legacy ref.authWithCustomToken API)
-var Firebase = require('firebase');
+// Requirements (Firebase v5 app+database+auth only, no Firestore/grpc – Node 25 compatible)
+var createFirebaseRef = require('../firebase-ref-helper');
 var FirebaseLoginCustom = require('../../dist/firebase-login-custom');
 
-var firebaseRef = new Firebase('https://' + process.env.FIREBASE_ID + '.firebaseio.com/test/child');
+var firebaseRef = createFirebaseRef(process.env.FIREBASE_ID, 'test/child');
 FirebaseLoginCustom(firebaseRef, {
         uid: process.env.FIREBASE_UID
     },
