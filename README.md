@@ -82,8 +82,8 @@ For CI, optional: set repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIR
 
 Releases are automated via GitHub Actions and [Release Please](https://github.com/googleapis/release-please).
 
-- **Release Please** (workflow `release-please`): On every push to `main`, it opens or updates a release PR based on [Conventional Commits](https://www.conventionalcommits.org/) in the commit history. Merge that PR to create a version tag; pushing the tag triggers the Release workflow below.
-- **Release** (workflow `Release`): Triggered by pushing a version tag (`v*`). It builds, publishes to npm, and creates a GitHub Release.
+- **Release Please** (workflow `release-please`): On every push to `main`, it opens or updates a release PR based on [Conventional Commits](https://www.conventionalcommits.org/). Merge that PR; Release Please then creates the version tag and GitHub Release.
+- **Release** (workflow `Release`): Triggered when a GitHub Release is published (e.g. by Release Please) or when a version tag (`v*`) is pushed. It builds, **publishes to npm** (requires `NPM_TOKEN` secret), and creates/updates the GitHub Release when triggered by a tag push.
 
 To publish a new version:
 
@@ -91,7 +91,7 @@ To publish a new version:
    - **NPM_TOKEN** (required): npm auth token with publish permission. Create at [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~youruser/tokens) (Automation or Publish).
    - **GH_PAT** (optional): GitHub Personal Access Token with `repo` scope. Only needed if the default `GITHUB_TOKEN` cannot create releases (e.g. in some org settings). If you use it, set the Release workflow's "Create GitHub Release" step to `GITHUB_TOKEN: ${{ secrets.GH_PAT }}`.
 
-2. **Version and tag (with Release Please)**: Use conventional commits (e.g. `feat:`, `fix:`, `chore:`). After pushing to `main`, Release Please will open or update a release PR. Merge that PR; Release Please will create the version tag and the Release workflow will run (build, publish to npm, GitHub Release).
+2. **Version and tag (with Release Please)**: Use conventional commits (e.g. `feat:`, `fix:`, `chore:`). After pushing to `main`, Release Please will open or update a release PR. Merge that PR; Release Please creates the tag and GitHub Release. The Release workflow runs on **release published** (and on tag push), so it will build and publish to npm—ensure **NPM_TOKEN** is set in repository secrets.
 
    **Without Release Please** (manual): Bump version in `package.json`, commit, push a version tag:
    ```bash
