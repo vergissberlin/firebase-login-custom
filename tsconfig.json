@@ -17,6 +17,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/firebase-login-custom.ts", "src/firebase-token-generator.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

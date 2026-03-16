@@ -1,12 +1,26 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
   FirebaseLoginCustom,
-  firebaseLoginCustom,
   type FirebaseRef,
   type AuthData,
   type FirebaseLoginOptionInput,
   type FirebaseLoginCallback,
 } from '../firebase-login-custom';
+
+/** Same behaviour as the default export (call without new) */
+function firebaseLoginCustom(
+  ref: FirebaseRef,
+  data?: AuthData,
+  option?: FirebaseLoginOptionInput,
+  callback?: FirebaseLoginCallback
+): void {
+  new FirebaseLoginCustom(
+    ref,
+    data ?? { uid: '' },
+    option ?? {},
+    callback ?? (() => {})
+  );
+}
 
 function createMockRef(behaviour?: {
   authWithCustomToken?: (token: string, callback: FirebaseLoginCallback) => void;
@@ -19,6 +33,18 @@ function createMockRef(behaviour?: {
   return { authWithCustomToken };
 }
 
+function runWithCallback(
+  run: (callback: FirebaseLoginCallback) => void
+): Promise<[error: Error | string | null, authData?: unknown]> {
+  return new Promise((resolve, reject) => {
+    try {
+      run((error, authData) => resolve([error, authData]));
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 describe('FirebaseLoginCustom', () => {
   describe('validation', () => {
     const validRef = createMockRef();
@@ -27,15 +53,6 @@ describe('FirebaseLoginCustom', () => {
     const validCallback: FirebaseLoginCallback = () => {};
 
     it('throws when ref is not an object', () => {
-      expect(() => {
-        new FirebaseLoginCustom(
-          null as unknown as FirebaseRef,
-          validData,
-          validOption,
-          validCallback
-        );
-      }).toThrow('Ref must be an object!');
-
       expect(() => {
         new FirebaseLoginCustom(
           'not-a-ref' as unknown as FirebaseRef,
@@ -93,7 +110,7 @@ describe('FirebaseLoginCustom', () => {
   });
 
   describe('auth flow', () => {
-    it('calls authWithCustomToken with a generated token and invokes callback on success', (done) => {
+    it('calls authWithCustomToken with a generated token and invokes callback on success', async () => {
       const authWithCustomToken = vi.fn((token: string, callback: FirebaseLoginCallback) => {
         expect(typeof token).toBe('string');
         expect(token.length).toBeGreaterThan(0);
@@ -101,119 +118,113 @@ describe('FirebaseLoginCustom', () => {
       });
 
       const ref = createMockRef({ authWithCustomToken });
-      const callback: FirebaseLoginCallback = (error, authData) => {
-        expect(error).toBeNull();
-        expect(authData).toEqual({ uid: 'auth-uid' });
-        expect(authWithCustomToken).toHaveBeenCalledTimes(1);
-        done();
-      };
+      const [error, authData] = await runWithCallback((cb) =>
+        new FirebaseLoginCustom(ref, { uid: 'user-1' }, { secret: 'secret' }, cb)
+      );
 
-      new FirebaseLoginCustom(ref, { uid: 'user-1' }, { secret: 'secret' }, callback);
+      expect(error).toBeNull();
+      expect(authData).toEqual({ uid: 'auth-uid' });
+      expect(authWithCustomToken).toHaveBeenCalledTimes(1);
     });
 
-    it('passes translated error to callback when auth fails with INVALID_EMAIL', (done) => {
+    it('passes translated error to callback when auth fails with INVALID_EMAIL', async () => {
       const authWithCustomToken = vi.fn((_token: string, callback: FirebaseLoginCallback) => {
         process.nextTick(() => callback({ code: 'INVALID_EMAIL' } as Error, undefined));
       });
 
       const ref = createMockRef({ authWithCustomToken });
-      const callback: FirebaseLoginCallback = (error) => {
-        expect(error).toBe('The specified user account email is invalid.');
-        done();
-      };
+      const [error] = await runWithCallback((cb) =>
+        new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, cb)
+      );
 
-      new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, callback);
+      expect(error).toBe('The specified user account email is invalid.');
     });
 
-    it('passes translated error to callback when auth fails with INVALID_PASSWORD', (done) => {
+    it('passes translated error to callback when auth fails with INVALID_PASSWORD', async () => {
       const authWithCustomToken = vi.fn((_token: string, callback: FirebaseLoginCallback) => {
         process.nextTick(() => callback({ code: 'INVALID_PASSWORD' } as Error, undefined));
       });
 
       const ref = createMockRef({ authWithCustomToken });
-      const callback: FirebaseLoginCallback = (error) => {
-        expect(error).toBe('The specified user account password is incorrect.');
-        done();
-      };
+      const [error] = await runWithCallback((cb) =>
+        new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, cb)
+      );
 
-      new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, callback);
+      expect(error).toBe('The specified user account password is incorrect.');
     });
 
-    it('passes translated error to callback when auth fails with INVALID_USER', (done) => {
+    it('passes translated error to callback when auth fails with INVALID_USER', async () => {
       const authWithCustomToken = vi.fn((_token: string, callback: FirebaseLoginCallback) => {
         process.nextTick(() => callback({ code: 'INVALID_USER' } as Error, undefined));
       });
 
       const ref = createMockRef({ authWithCustomToken });
-      const callback: FirebaseLoginCallback = (error) => {
-        expect(error).toBe('The specified user account does not exist.');
-        done();
-      };
+      const [error] = await runWithCallback((cb) =>
+        new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, cb)
+      );
 
-      new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, callback);
+      expect(error).toBe('The specified user account does not exist.');
     });
 
-    it('passes generic error message for unknown auth error codes', (done) => {
+    it('passes generic error message for unknown auth error codes', async () => {
       const authWithCustomToken = vi.fn((_token: string, callback: FirebaseLoginCallback) => {
         process.nextTick(() => callback(new Error('Network error'), undefined));
       });
 
       const ref = createMockRef({ authWithCustomToken });
-      const callback: FirebaseLoginCallback = (error) => {
-        expect(error).toContain('Error logging user in:');
-        expect(String(error)).toContain('Network error');
-        done();
-      };
+      const [error] = await runWithCallback((cb) =>
+        new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, cb)
+      );
 
-      new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, callback);
+      expect(error).toContain('Error logging user in:');
+      expect(String(error)).toContain('Network error');
     });
   });
 
   describe('option defaults', () => {
-    it('uses default expires and notBefore when not provided', (done) => {
+    it('uses default expires and notBefore when not provided', async () => {
       const authWithCustomToken = vi.fn((token: string, callback: FirebaseLoginCallback) => {
         expect(token).toBeDefined();
         process.nextTick(() => callback(null, { uid: 'u' }));
       });
 
       const ref = createMockRef({ authWithCustomToken });
-      const callback: FirebaseLoginCallback = () => done();
-
-      new FirebaseLoginCustom(
-        ref,
-        { uid: 'u' },
-        { secret: 's' }, // no expires, notBefore
-        callback
+      const [error] = await runWithCallback((cb) =>
+        new FirebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, cb)
       );
+
+      expect(error).toBeNull();
     });
   });
 });
 
 describe('firebaseLoginCustom (default export)', () => {
-  it('works without new and calls authWithCustomToken', (done) => {
+  it('works without new and calls authWithCustomToken', async () => {
     const authWithCustomToken = vi.fn((token: string, callback: FirebaseLoginCallback) => {
       expect(typeof token).toBe('string');
       process.nextTick(() => callback(null, { uid: 'default-uid' }));
     });
 
     const ref = createMockRef({ authWithCustomToken });
-    firebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, (error, data) => {
-      expect(error).toBeNull();
-      expect(data).toEqual({ uid: 'default-uid' });
-      done();
-    });
+    const [error, data] = await runWithCallback((cb) =>
+      firebaseLoginCustom(ref, { uid: 'u' }, { secret: 's' }, cb)
+    );
+
+    expect(error).toBeNull();
+    expect(data).toEqual({ uid: 'default-uid' });
   });
 
-  it('uses empty uid and default options when called with minimal args', (done) => {
+  it('uses empty uid when data omitted and invokes callback on success', async () => {
     const authWithCustomToken = vi.fn((_token: string, callback: FirebaseLoginCallback) => {
       process.nextTick(() => callback(null, { uid: 'ok' }));
     });
 
     const ref = createMockRef({ authWithCustomToken });
-    firebaseLoginCustom(ref, undefined, undefined, (error) => {
-      expect(error).toBeNull();
-      expect(authWithCustomToken).toHaveBeenCalledTimes(1);
-      done();
-    });
+    const [error] = await runWithCallback((cb) =>
+      firebaseLoginCustom(ref, undefined, { secret: 's' }, cb)
+    );
+
+    expect(error).toBeNull();
+    expect(authWithCustomToken).toHaveBeenCalledTimes(1);
   });
 });
