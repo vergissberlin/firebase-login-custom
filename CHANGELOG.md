@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.1.0...v0.2.0) (2026-03-16)
+
+
+### Features
+
+* enhance testing setup and documentation ([b27b93e](https://github.com/vergissberlin/firebase-login-custom/commit/b27b93e4b68612905ad9a3ac9dec79ddf1f04823))
+* update README and release workflow for clarity and functionality ([1e38db6](https://github.com/vergissberlin/firebase-login-custom/commit/1e38db6b64c2e8508dbfa2f5c31b7090fb739e2a))
+
+
+### Bug Fixes
+
+* refine TypeScript configuration and enhance test output management ([1f687e1](https://github.com/vergissberlin/firebase-login-custom/commit/1f687e1f17214920011e5b2bdac048bd4981b3c4))
+
 ## [0.1.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.0.3...v0.1.0) (2026-03-16)
 
 
