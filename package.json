@@ -14,7 +14,7 @@
     "dev": "vite build --watch",
     "watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src/",
+    "lint": "npx eslint src/",
     "test": "node tests/integration/firebase-login-custom-integration-child.js && node tests/integration/firebase-login-custom-integration-simple.js && node tests/integration/firebase-login-custom-integration-unique.js"
   },
   "repository": {
