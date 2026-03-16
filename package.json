@@ -23,8 +23,10 @@
     "watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
     "lint": "npx eslint src/",
-    "test": "node tests/run-integration.js",
-    "pretest": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist/firebase-login-custom.js')){ const {execSync}=require('child_process'); execSync('pnpm run build',{stdio:'inherit'}); }\""
+    "test": "pnpm run test:unit && pnpm run test:integration",
+    "test:unit": "vitest run",
+    "test:integration": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist/firebase-login-custom.js')){ const {execSync}=require('child_process'); execSync('pnpm run build',{stdio:'inherit'}); }\" && node tests/run-integration.js",
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",
@@ -62,6 +64,7 @@
     "firebase": "^12.0.0",
     "typescript": "^5.9.3",
     "vite": "^8.0.0",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^2.1.0"
   }
 }

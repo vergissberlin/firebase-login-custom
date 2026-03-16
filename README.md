@@ -67,6 +67,9 @@ pnpm run build
 pnpm test
 ```
 
+- **Unit tests** (Vitest): `pnpm run test:unit` (no build required). Watch mode: `pnpm run test:watch`.
+- **Integration tests**: `pnpm run test:integration` (builds first if needed). `pnpm test` runs unit then integration.
+
 To run against real Firebase:
 
 ```bash
