@@ -6,10 +6,12 @@
 .hg
 .idea
 .lock-wscript
-.travis.yml
 .wafpickle-*
 CVS
-Gruntfile.js
 npm-debug.log
+.github
+eslint.config.mjs
+vite.config.ts
+tsconfig.json
 src
 tests

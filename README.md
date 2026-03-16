@@ -1,11 +1,9 @@
 firebase-login-custom
 =====================
 
-[![Build Status](https://travis-ci.org/vergissberlin/firebase-login-custom.svg)](https://travis-ci.org/vergissberlin/firebase-login-custom)
-[![Dependency Status](https://gemnasium.com/vergissberlin/firebase-login-custom.svg)](https://gemnasium.com/vergissberlin/firebase-login-custom)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vergissberlin/firebase-login-custom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![Issues](http://img.shields.io/github/issues/vergissberlin/firebase-login-custom.svg)]( https://github.com/vergissberlin/firebase-login-custom/issues "GitHub ticket system")
-[![npm version](https://img.shields.io/npm/v/firebase-login-custom.png)](https://npmjs.org/package/firebase-login-custom "View this project on npm")
+[![CI](https://github.com/vergissberlin/firebase-login-custom/actions/workflows/ci.yml/badge.svg)](https://github.com/vergissberlin/firebase-login-custom/actions/workflows/ci.yml)
+[![Issues](https://img.shields.io/github/issues/vergissberlin/firebase-login-custom.svg)](https://github.com/vergissberlin/firebase-login-custom/issues "GitHub ticket system")
+[![npm version](https://img.shields.io/npm/v/firebase-login-custom.svg)](https://www.npmjs.com/package/firebase-login-custom "View this project on npm")
 
 
 Authenticating Users with Email & Password
@@ -25,10 +23,14 @@ More information your can find [here](https://www.firebase.com/docs/web/guide/lo
 Installation
 ------------
 
-Install via npm:
+Install via npm or pnpm:
 
 ```bash
-    npm install firebase firebase-login-custom
+npm install firebase firebase-login-custom
+```
+
+```bash
+pnpm add firebase firebase-login-custom
 ```
 
 Example
@@ -75,20 +77,18 @@ Install locally
 ---------------
 
 ```bash
-$ cd /path/to/firebase-login-email/
-$ npm install
+$ cd /path/to/firebase-login-custom
+$ pnpm install
+$ pnpm run build
 $ export FIREBASE_ID=<YOUR_TEST_ID>
-$ export FIREBASE_SECRET=<123456abcdefg>
-$ node tests/integration/firebase-login-custom-integration-child.js
-$ node tests/integration/firebase-login-custom-integration-simple.js
-$ node tests/integration/firebase-login-custom-integration-unique.js
+$ export FIREBASE_UID=<YOUR_USER_ID>
+$ export FIREBASE_SECRET=<YOUR_SECRET>
+$ pnpm test
 ```
+
+For CI, set the repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIREBASE_SECRET` so integration tests run on push/PR.
 
 <a name="thanks"></a>
 Thanks to
 ---------
 1. A special thanks to the developers of **NodeJS** and **Firebase**.
-
-
-----
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vergissberlin/firebase-login-custom/trend.png)](https://bitdeli.com/free "Bitdeli Badge") [![Greenkeeper badge](https://badges.greenkeeper.io/vergissberlin/firebase-login-custom.svg)](https://greenkeeper.io/)

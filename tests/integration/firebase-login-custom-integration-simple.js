@@ -10,12 +10,10 @@
  node tests/integration/firebase-login-custom-integration-simple.js
  */
 
-// Requirements
+// Requirements (Firebase v5 for legacy ref.authWithCustomToken API)
 var Firebase = require('firebase');
 var FirebaseLoginCustom = require('../../dist/firebase-login-custom');
 
-
-// Login process
 var firebaseRef = new Firebase('https://' + process.env.FIREBASE_ID + '.firebaseio.com/test/simple');
 FirebaseLoginCustom(firebaseRef, {
         uid: process.env.FIREBASE_UID,
