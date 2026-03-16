@@ -60,18 +60,7 @@ Issues
 ------
 
 Please report issues to [ticket system](https://github.com/vergissberlin/firebase-login-custom/issues).
-Pull requests are welcome here!
-
-
-Contributing
-------------
-
-1. Fork it
-2. Create your feature branch (`git flow feature start my-new-feature`)
-3. Commit your changes (`git commit -am 'Add code'`)
-4. Finish your implementation (`git flow feature finish my-new-feature`)
-4. Push to origin (`git push origin`)
-5. Create new Pull Request
+Pull requests are welcome here! See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute.
 
 Install locally
 ---------------
