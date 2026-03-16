@@ -1,13 +1,15 @@
 {
   "name": "firebase-login-custom",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "This package is a wrapper to firebase custom login including all dependencies with the exception of firebase it self.",
   "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=20"
   },
   "pnpm": {
-    "neverBuiltDependencies": ["grpc"]
+    "neverBuiltDependencies": [
+      "grpc"
+    ]
   },
   "main": "dist/firebase-login-custom.js",
   "module": "dist/firebase-login-custom.es.js",
