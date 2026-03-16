@@ -26,7 +26,8 @@
     "test": "pnpm run test:unit && pnpm run test:integration",
     "test:unit": "vitest run",
     "test:integration": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist/firebase-login-custom.js')){ const {execSync}=require('child_process'); execSync('pnpm run build',{stdio:'inherit'}); }\" && node tests/run-integration.js",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -65,6 +66,7 @@
     "typescript": "^5.9.3",
     "vite": "^8.0.0",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^2.1.0"
+    "vitest": "^2.1.0",
+    "husky": "^9.1.7"
   }
 }
