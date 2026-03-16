@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "description": "This package is a wrapper to firebase custom login including all dependencies with the exception of firebase it self.",
   "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "neverBuiltDependencies": ["grpc"]
+  },
   "main": "dist/firebase-login-custom.js",
   "module": "dist/firebase-login-custom.es.js",
   "types": "dist/firebase-login-custom.d.ts",
@@ -47,8 +50,8 @@
     "firebase-token-generator": "^2.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.3",
-    "eslint": "^10.0.3",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.1",
     "typescript-eslint": "^8.57.1",
     "firebase": "^5.11.1",
     "typescript": "^5.9.3",
