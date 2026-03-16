@@ -18,6 +18,19 @@ export default [
     },
   },
   {
+    files: ['tests/**/*.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
     ignores: ['dist/', 'node_modules/', '*.config.js', '*.config.ts', '*.config.mjs'],
   },
 ];
