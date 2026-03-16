@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
   FirebaseLoginCustom,
+  FirebaseLoginCustomValidationError,
   type FirebaseRef,
   type AuthData,
   type FirebaseLoginOptionInput,
@@ -52,7 +53,15 @@ describe('FirebaseLoginCustom', () => {
     const validOption: FirebaseLoginOptionInput = { secret: 'my-secret' };
     const validCallback: FirebaseLoginCallback = () => {};
 
-    it('throws when ref is not an object', () => {
+    it('throws FirebaseLoginCustomValidationError when ref is not an object', () => {
+      expect(() => {
+        new FirebaseLoginCustom(
+          'not-a-ref' as unknown as FirebaseRef,
+          validData,
+          validOption,
+          validCallback
+        );
+      }).toThrow(FirebaseLoginCustomValidationError);
       expect(() => {
         new FirebaseLoginCustom(
           'not-a-ref' as unknown as FirebaseRef,
@@ -66,7 +75,7 @@ describe('FirebaseLoginCustom', () => {
     it('throws when data.uid is not a string', () => {
       expect(() => {
         new FirebaseLoginCustom(validRef, {} as AuthData, validOption, validCallback);
-      }).toThrow('Data object must have an "uid" field!');
+      }).toThrow('Data object must have a "uid" field!');
 
       expect(() => {
         new FirebaseLoginCustom(
@@ -75,13 +84,13 @@ describe('FirebaseLoginCustom', () => {
           validOption,
           validCallback
         );
-      }).toThrow('Data object must have an "uid" field!');
+      }).toThrow('Data object must have a "uid" field!');
     });
 
     it('throws when option.secret is not a string', () => {
       expect(() => {
         new FirebaseLoginCustom(validRef, validData, {} as FirebaseLoginOptionInput, validCallback);
-      }).toThrow('Option object must have an "secret" field!');
+      }).toThrow('Option object must have a "secret" field!');
 
       expect(() => {
         new FirebaseLoginCustom(
@@ -90,7 +99,7 @@ describe('FirebaseLoginCustom', () => {
           { secret: 123 } as unknown as FirebaseLoginOptionInput,
           validCallback
         );
-      }).toThrow('Option object must have an "secret" field!');
+      }).toThrow('Option object must have a "secret" field!');
     });
 
     it('throws when callback is not a function', () => {
@@ -179,6 +188,7 @@ describe('FirebaseLoginCustom', () => {
       expect(error).toContain('Error logging user in:');
       expect(String(error)).toContain('Network error');
     });
+
   });
 
   describe('option defaults', () => {

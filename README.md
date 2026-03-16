@@ -51,6 +51,12 @@ FirebaseLoginCustom(firebaseRef, {
 );
 ```
 
+### Error handling
+
+- **Validation errors** (invalid `ref`, `data`, `option`, or `callback`): the constructor throws `FirebaseLoginCustomValidationError` (or the callable form throws it). You can check `error.code === 'FIREBASE_LOGIN_CUSTOM_VALIDATION_ERROR'` or `error instanceof FirebaseLoginCustomValidationError`.
+- **Token generation errors**: if token creation fails, the **callback** is invoked with a `FirebaseLoginCustomTokenError` (once, asynchronously). It has a `cause` property with the original thrown value.
+- **Auth errors** (from Firebase): the callback receives a user-facing string for known codes (`INVALID_EMAIL`, `INVALID_PASSWORD`, `INVALID_USER`) or a generic message including the original error for other failures.
+
 ## Issues
 
 Please report issues to [ticket system](https://github.com/vergissberlin/firebase-login-custom/issues).

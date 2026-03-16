@@ -19,6 +19,43 @@
 
 import FirebaseTokenGenerator from 'firebase-token-generator';
 
+/** Error code for validation failures (invalid ref, data, option, or callback). */
+export const FIREBASE_LOGIN_CUSTOM_VALIDATION_ERROR = 'FIREBASE_LOGIN_CUSTOM_VALIDATION_ERROR';
+
+/** Error code for token generation failures (e.g. invalid claims or secret). */
+export const FIREBASE_LOGIN_CUSTOM_TOKEN_ERROR = 'FIREBASE_LOGIN_CUSTOM_TOKEN_ERROR';
+
+/**
+ * Thrown when constructor arguments are invalid (ref, data, option, or callback).
+ * Consumers can use `error.code === FIREBASE_LOGIN_CUSTOM_VALIDATION_ERROR` or
+ * `error instanceof FirebaseLoginCustomValidationError`.
+ */
+export class FirebaseLoginCustomValidationError extends Error {
+  readonly code = FIREBASE_LOGIN_CUSTOM_VALIDATION_ERROR;
+
+  constructor(message: string) {
+    super(message);
+    this.name = 'FirebaseLoginCustomValidationError';
+    Object.setPrototypeOf(this, FirebaseLoginCustomValidationError.prototype);
+  }
+}
+
+/**
+ * Thrown when token generation fails (e.g. invalid secret or claims).
+ * Passed to the callback when createToken throws; not thrown from the constructor.
+ */
+export class FirebaseLoginCustomTokenError extends Error {
+  readonly code = FIREBASE_LOGIN_CUSTOM_TOKEN_ERROR;
+  readonly cause: unknown;
+
+  constructor(message: string, cause?: unknown) {
+    super(message);
+    this.name = 'FirebaseLoginCustomTokenError';
+    this.cause = cause;
+    Object.setPrototypeOf(this, FirebaseLoginCustomTokenError.prototype);
+  }
+}
+
 export interface AuthData {
   uid: string;
   [key: string]: unknown;
@@ -79,44 +116,55 @@ export class FirebaseLoginCustom {
     }
 
     if (typeof ref !== 'object') {
-      throw new Error('Ref must be an object!');
+      throw new FirebaseLoginCustomValidationError('Ref must be an object!');
     }
     if (typeof data.uid !== 'string') {
-      throw new Error('Data object must have an "uid" field!');
+      throw new FirebaseLoginCustomValidationError('Data object must have a "uid" field!');
     }
     if (typeof option.secret !== 'string') {
-      throw new Error('Option object must have an "secret" field!');
+      throw new FirebaseLoginCustomValidationError('Option object must have a "secret" field!');
     }
     if (typeof callback !== 'function') {
-      throw new Error('Callback must be a function!');
+      throw new FirebaseLoginCustomValidationError('Callback must be a function!');
     }
 
-    const tokenGenerator = new FirebaseTokenGenerator(option.secret);
-    const authToken = tokenGenerator.createToken(data, {
-      admin: option.admin,
-      debug: option.debug,
-      expires: option.expires,
-      notBefore: option.notBefore,
-    });
+    let authToken: string;
+    try {
+      const tokenGenerator = new FirebaseTokenGenerator(option.secret);
+      authToken = tokenGenerator.createToken(data, {
+        admin: option.admin,
+        debug: option.debug,
+        expires: option.expires,
+        notBefore: option.notBefore,
+      });
+    } catch (err) {
+      const callbackError =
+        err instanceof Error
+          ? new FirebaseLoginCustomTokenError('Token generation failed: ' + err.message, err)
+          : new FirebaseLoginCustomTokenError('Token generation failed: ' + String(err), err);
+      process.nextTick(() => callback(callbackError, undefined));
+      return;
+    }
 
     ref.authWithCustomToken(authToken, (error, authData) => {
+      let callbackError: Error | string | null = null;
       if (error) {
         const err = error as { code?: string };
         switch (err.code) {
           case 'INVALID_EMAIL':
-            error = 'The specified user account email is invalid.';
+            callbackError = 'The specified user account email is invalid.';
             break;
           case 'INVALID_PASSWORD':
-            error = 'The specified user account password is incorrect.';
+            callbackError = 'The specified user account password is incorrect.';
             break;
           case 'INVALID_USER':
-            error = 'The specified user account does not exist.';
+            callbackError = 'The specified user account does not exist.';
             break;
           default:
-            error = 'Error logging user in: ' + String(error);
+            callbackError = 'Error logging user in: ' + String(error);
         }
       }
-      callback(error, authData);
+      callback(callbackError, authData);
     });
   }
 }
