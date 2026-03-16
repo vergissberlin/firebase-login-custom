@@ -88,9 +88,17 @@ For CI, optional: set repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIR
 Releases are automated via GitHub Actions and [Release Please](https://github.com/googleapis/release-please).
 
 - **Release Please** (workflow `release-please`): On every push to `main`, it opens or updates a release PR based on [Conventional Commits](https://www.conventionalcommits.org/). Merge that PR; Release Please then creates the version tag and GitHub Release.
-- **Release** (workflow `Release`): Triggered when a GitHub Release is published (e.g. by Release Please) or when a version tag (`v*`) is pushed. It builds, **publishes to npm** (requires `NPM_TOKEN` secret), and creates/updates the GitHub Release when triggered by a tag push.
+- **Release** (workflow `Release`): Triggered when a GitHub Release is published (e.g. by Release Please), when a version tag (`v*`) is pushed, or **manually**. It builds, **publishes to npm** (requires `NPM_TOKEN` secret), and creates/updates the GitHub Release when triggered by a tag push.
 
-To publish a new version:
+### First-time publish (Release workflow never ran)
+
+If the Release workflow has never run and nothing is on [npm](https://www.npmjs.com/package/firebase-login-custom) yet:
+
+1. **Add `NPM_TOKEN`** (Settings → Secrets and variables → Actions): Create an npm [Access Token](https://www.npmjs.com/settings/~youruser/tokens) with **Automation** or **Publish** scope and add it as repository secret `NPM_TOKEN`.
+2. **Run the Release workflow once**: In the repo go to **Actions → Release → Run workflow** (use “Run workflow” on the default branch). This publishes the current `package.json` version to npm. No GitHub Release is created when run manually.
+3. After that, use either Release Please (conventional commits + merge release PR) or manual tag push (`git tag v0.1.0 && git push origin v0.1.0`) so future releases also trigger the workflow automatically.
+
+### Regular releases
 
 1. **Secrets** (Settings → Secrets and variables → Actions):
    - **NPM_TOKEN** (required): npm auth token with publish permission. Create at [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~youruser/tokens) (Automation or Publish).

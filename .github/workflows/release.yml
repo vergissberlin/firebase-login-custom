@@ -7,6 +7,11 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual run (e.g. "First publish to npm" or "Republish after fixing NPM_TOKEN")'
+        required: false
+        default: 'Manual trigger'
 
 jobs:
   release:
