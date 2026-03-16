@@ -34,3 +34,9 @@ node_modules
 
 # IDEs
 .idea
+
+# pnpm
+.pnpm-store
+
+# dist
+dist

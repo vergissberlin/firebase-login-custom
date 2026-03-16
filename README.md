@@ -88,6 +88,25 @@ $ pnpm test
 
 For CI, set the repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIREBASE_SECRET` so integration tests run on push/PR.
 
+Releasing
+---------
+
+Releases are automated via GitHub Actions. To publish a new version:
+
+1. **Secrets** (Settings → Secrets and variables → Actions):
+   - **NPM_TOKEN** (required): npm auth token with publish permission. Create at [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~youruser/tokens) (Automation or Publish).
+   - **GH_PAT** (optional): GitHub Personal Access Token with `repo` scope. Only needed if the default `GITHUB_TOKEN` cannot create releases (e.g. in some org settings). If you use it, set the Release workflow’s “Create GitHub Release” step to `GITHUB_TOKEN: ${{ secrets.GH_PAT }}`.
+
+2. **Version and tag**: Bump version in `package.json`, commit, then push a version tag:
+   ```bash
+   pnpm version patch   # or minor / major
+   git push origin main
+   git push origin v0.0.4   # use the new version number
+   ```
+   Pushing a tag like `v*` triggers the Release workflow: it builds, publishes to npm, and creates a GitHub Release with generated release notes.
+
+3. **Manual run**: You can also trigger the workflow manually (Actions → Release → Run workflow). For a manual run, the workflow will publish the current version from `package.json` to npm; no GitHub Release is created unless a tag is pushed.
+
 <a name="thanks"></a>
 Thanks to
 ---------
