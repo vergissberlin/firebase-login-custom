@@ -1,13 +1,15 @@
 {
   "name": "firebase-login-custom",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "This package is a wrapper to firebase custom login including all dependencies with the exception of firebase it self.",
   "packageManager": "pnpm@9.15.9",
   "engines": {
     "node": ">=20"
   },
   "pnpm": {
-    "neverBuiltDependencies": ["grpc"]
+    "neverBuiltDependencies": [
+      "grpc"
+    ]
   },
   "main": "dist/firebase-login-custom.js",
   "module": "dist/firebase-login-custom.es.js",
@@ -57,9 +59,9 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.0.1",
     "typescript-eslint": "^8.57.1",
-    "firebase": "^5.11.1",
+    "firebase": "^12.0.0",
     "typescript": "^5.9.3",
-    "vite": "^6.4.1",
+    "vite": "^8.0.0",
     "vite-plugin-dts": "^4.5.4"
   }
 }

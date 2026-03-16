@@ -80,23 +80,28 @@ For CI, optional: set repository secrets `FIREBASE_ID`, `FIREBASE_UID`, and `FIR
 
 ## Releasing
 
-Releases are automated via GitHub Actions. To publish a new version:
+Releases are automated via GitHub Actions and [Release Please](https://github.com/googleapis/release-please).
+
+- **Release Please** (workflow `release-please`): On every push to `main`, it opens or updates a release PR based on [Conventional Commits](https://www.conventionalcommits.org/) in the commit history. Merge that PR to create a version tag; pushing the tag triggers the Release workflow below.
+- **Release** (workflow `Release`): Triggered by pushing a version tag (`v*`). It builds, publishes to npm, and creates a GitHub Release.
+
+To publish a new version:
 
 1. **Secrets** (Settings → Secrets and variables → Actions):
    - **NPM_TOKEN** (required): npm auth token with publish permission. Create at [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~youruser/tokens) (Automation or Publish).
    - **GH_PAT** (optional): GitHub Personal Access Token with `repo` scope. Only needed if the default `GITHUB_TOKEN` cannot create releases (e.g. in some org settings). If you use it, set the Release workflow's "Create GitHub Release" step to `GITHUB_TOKEN: ${{ secrets.GH_PAT }}`.
 
-2. **Version and tag**: Bump version in `package.json`, commit, then push a version tag:
+2. **Version and tag (with Release Please)**: Use conventional commits (e.g. `feat:`, `fix:`, `chore:`). After pushing to `main`, Release Please will open or update a release PR. Merge that PR; Release Please will create the version tag and the Release workflow will run (build, publish to npm, GitHub Release).
 
+   **Without Release Please** (manual): Bump version in `package.json`, commit, push a version tag:
    ```bash
    pnpm version patch   # or minor / major
    git push origin main
    git push origin v0.0.4   # use the new version number
    ```
+   Pushing a tag `v*` triggers the Release workflow.
 
-   Pushing a tag like `v*` triggers the Release workflow: it builds, publishes to npm, and creates a GitHub Release with generated release notes.
-
-3. **Manual run**: You can also trigger the workflow manually (Actions → Release → Run workflow). For a manual run, the workflow will publish the current version from `package.json` to npm; no GitHub Release is created unless a tag is pushed.
+3. **Manual run**: You can also trigger the Release workflow manually (Actions → Release → Run workflow). It will publish the current version from `package.json` to npm; no GitHub Release is created unless a tag is pushed.
 
 ## Thanks to {#thanks}
 
