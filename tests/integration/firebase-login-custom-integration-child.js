@@ -6,7 +6,9 @@
  */
 
 var getFirebaseRef = require('../get-firebase-ref');
-var FirebaseLoginCustom = require('../../dist/firebase-login-custom');
+var lib = require('../../dist/firebase-login-custom');
+var FirebaseLoginCustom = typeof lib === 'function' ? lib : (lib && lib.default);
+if (typeof FirebaseLoginCustom !== 'function') throw new Error('firebase-login-custom: expected function (run pnpm run build)');
 
 var firebaseRef = getFirebaseRef(process.env.FIREBASE_ID, 'test/child');
 FirebaseLoginCustom(firebaseRef, {

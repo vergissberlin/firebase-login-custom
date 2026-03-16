@@ -21,7 +21,8 @@
     "watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
     "lint": "npx eslint src/",
-    "test": "node tests/run-integration.js"
+    "test": "node tests/run-integration.js",
+    "pretest": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist/firebase-login-custom.js')){ const {execSync}=require('child_process'); execSync('pnpm run build',{stdio:'inherit'}); }\""
   },
   "repository": {
     "type": "git",
