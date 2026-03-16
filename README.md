@@ -15,7 +15,7 @@ Firebase account and clicking on the Security tab in the Firebase Dashboard.
 This package is a wrapper to Firebase custom login including all dependencies
 with the exception of firebase it self.
 
-More information your can find [here](https://www.firebase.com/docs/web/guide/login/custom.html).
+More information can be found in the [Firebase custom login documentation](https://www.firebase.com/docs/web/guide/login/custom.html).
 
 ## Installation
 
