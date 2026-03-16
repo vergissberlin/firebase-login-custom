@@ -9,10 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [22.x, 25.x]
 
     steps:
       - name: Checkout
@@ -21,7 +23,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.15.0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
