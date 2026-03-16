@@ -13,7 +13,7 @@ function cjsDefaultExport() {
       );
       if (cjs?.code) {
         cjs.code +=
-          "\nif (typeof module !== 'undefined' && module.exports) { var d = module.exports.default, c = module.exports.FirebaseLoginCustom; module.exports = d; if (d) { d.default = d; if (c !== undefined) d.FirebaseLoginCustom = c; } }\n";
+          "\nif (typeof module !== 'undefined' && module.exports) { var _def = module.exports.default, _cls = module.exports.FirebaseLoginCustom; module.exports = _def; if (_def) { _def.default = _def; if (_cls !== undefined) _def.FirebaseLoginCustom = _cls; } }\n";
       }
     },
   };

@@ -1,6 +1,5 @@
 /**
- * Runs integration tests. Uses Firebase 5 app/database/auth only (no Firestore/grpc),
- * so tests run on Node 20, 22, 25, etc.
+ * Runs integration tests. Uses mock by default (no Firebase credentials needed).
  */
 const { spawnSync } = require('child_process');
 const path = require('path');
