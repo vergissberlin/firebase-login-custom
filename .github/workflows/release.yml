@@ -20,6 +20,7 @@ jobs:
       contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      HUSKY: '0'
 
     steps:
       - name: Checkout
@@ -47,7 +48,11 @@ jobs:
         run: pnpm build
 
       - name: Publish to npm
-        run: pnpm publish --access public --no-git-checks
+        run: |
+          for i in 1 2 3; do
+            pnpm publish --access public --no-git-checks && break
+            if [ $i -lt 3 ]; then echo "Publish failed, retrying in 15s..."; sleep 15; else exit 1; fi
+          done
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

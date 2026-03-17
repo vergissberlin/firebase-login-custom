@@ -38,5 +38,13 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true,
   },
-  plugins: [dts({ include: ['src'], outDir: 'dist', insertTypesEntry: false }), cjsDefaultExport()],
+  plugins: [
+    dts({
+      include: ['src'],
+      exclude: ['**/__tests__/**'],
+      outDir: 'dist',
+      insertTypesEntry: false,
+    }),
+    cjsDefaultExport(),
+  ],
 });
