@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.2.0...v0.3.0) (2026-03-17)
+
+
+### Features
+
+* implement error handling for FirebaseLoginCustom ([703feef](https://github.com/vergissberlin/firebase-login-custom/commit/703feefc8e4909046064df0afcf31570164e36d5))
+
 ## [0.1.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.0.4...v0.1.0) (2026-03-16)
 
 
