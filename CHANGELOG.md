@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.3.0...v0.4.0) (2026-03-17)
+
+
+### Features
+
+* **tests:** enhance FirebaseLoginCustom tests for validation and token generation errors ([28fe0b6](https://github.com/vergissberlin/firebase-login-custom/commit/28fe0b678e1001844f73fb6c7d6da2b1b07328ca))
+
 ## [0.3.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.2.0...v0.3.0) (2026-03-17)
 
 
