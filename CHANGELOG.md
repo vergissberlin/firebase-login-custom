@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.1...v0.5.2) (2026-03-17)
+
+
+### Bug Fixes
+
+* update Vite configuration and CI workflow for improved plugin handling and publish retries ([f95e28f](https://github.com/vergissberlin/firebase-login-custom/commit/f95e28fe51095f0eb18ef34b6536ec07917b6889))
+
 ## [0.5.1](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.0...v0.5.1) (2026-03-17)
 
 
