@@ -21,6 +21,12 @@
       "require": "./dist/firebase-login-custom.js"
     }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "directories": {
     "test": "tests"
   },
@@ -29,7 +35,7 @@
     "dev": "vite build --watch",
     "watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "pnpm exec eslint src/",
+    "lint": "pnpm exec eslint src/ tests/",
     "test": "pnpm run test:unit && pnpm run test:integration",
     "test:unit": "vitest run",
     "test:integration": "node -e \"const fs=require('fs'); if(!fs.existsSync('dist/firebase-login-custom.js')){ const {execSync}=require('child_process'); execSync('pnpm run build',{stdio:'inherit'}); }\" && node tests/run-integration.js",

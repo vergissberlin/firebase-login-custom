@@ -25,8 +25,6 @@ FirebaseLoginCustom(firebaseRef, {
             console.log(error);
             process.exit(1);
         } else {
-            // console.log(data);
-
             // Try to write test data
             firebaseRef.child(data.uid).set({
                 name: 'Dirk'

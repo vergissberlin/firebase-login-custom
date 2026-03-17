@@ -23,7 +23,7 @@ pnpm test
 
 **Pre-commit hooks (Husky):** Before each commit, `pnpm run lint` and `pnpm run test` run automatically. If either fails, the commit is aborted. Hooks are installed when you run `pnpm install` (via the `prepare` script).
 
-To run against real Firebase:
+To run against real Firebase, use environment variables (never commit secrets or put them in code):
 
 ```bash
 export FIREBASE_ID=<YOUR_TEST_ID>

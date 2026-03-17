@@ -18,7 +18,7 @@ FirebaseLoginCustom(firebaseRef, {
         expires: +new Date() / 1000 + 4,
         notBefore: +new Date() / 1000
     },
-    function (error, data) {
+    function (error, _data) {
         if (error !== null) {
             console.log(error);
             process.exit(1);

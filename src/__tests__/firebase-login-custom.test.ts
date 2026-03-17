@@ -3,6 +3,7 @@ import {
   FirebaseLoginCustom,
   FirebaseLoginCustomValidationError,
   FirebaseLoginCustomTokenError,
+  firebaseLoginCustomAsync,
   FIREBASE_LOGIN_CUSTOM_VALIDATION_ERROR,
   FIREBASE_LOGIN_CUSTOM_TOKEN_ERROR,
   type FirebaseRef,
@@ -349,5 +350,23 @@ describe('firebaseLoginCustom (default export)', () => {
 
     expect(error).toBeNull();
     expect(authWithCustomToken).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('firebaseLoginCustomAsync', () => {
+  it('resolves with authData on success', async () => {
+    const ref = createMockRef();
+    const result = await firebaseLoginCustomAsync(ref, { uid: 'u' }, { secret: 's' });
+    expect(result).toEqual({ authData: { uid: 'test-uid' } });
+  });
+
+  it('rejects when auth fails', async () => {
+    const authWithCustomToken = vi.fn((_token: string, callback: FirebaseLoginCallback) => {
+      process.nextTick(() => callback({ code: 'INVALID_EMAIL' } as unknown as Error, undefined));
+    });
+    const ref = createMockRef({ authWithCustomToken });
+    await expect(firebaseLoginCustomAsync(ref, { uid: 'u' }, { secret: 's' })).rejects.toBe(
+      'The specified user account email is invalid.'
+    );
   });
 });

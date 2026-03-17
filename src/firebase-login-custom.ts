@@ -203,4 +203,25 @@ function firebaseLoginCustom(
   );
 }
 
+/**
+ * Promise-based API: same as `firebaseLoginCustom` but returns a Promise.
+ * Resolves with `{ authData }` on success, rejects with the same error type as the callback
+ * (string or `FirebaseLoginCustomTokenError` / auth error message).
+ */
+export function firebaseLoginCustomAsync(
+  ref: FirebaseRef,
+  data: AuthData = { uid: '' },
+  option?: FirebaseLoginOptionInput
+): Promise<{ authData: unknown }> {
+  return new Promise((resolve, reject) => {
+    firebaseLoginCustom(ref, data, option ?? { ...DEFAULT_OPTION }, (error, authData) => {
+      if (error !== null && error !== undefined) {
+        reject(error);
+      } else {
+        resolve({ authData });
+      }
+    });
+  });
+}
+
 export default firebaseLoginCustom;
