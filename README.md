@@ -9,7 +9,10 @@
 To authenticate a user using [Custom Login](https://firebase.google.com/docs/auth/web/custom-auth),
 we must provide each client with a secure JWT that has been generated on a server.
 We provide several helper libraries for generating JWTs.
-Use a Firebase Secret to generate these tokens. Firebase Secrets can be found by logging into the
+
+> **Deprecation notice:** The token-based flow using a **Firebase Secret** (Security tab in the Firebase Dashboard) is deprecated. Firebase recommends using [Service Accounts](https://firebase.google.com/docs/auth/admin/create-custom-tokens) and the Firebase Admin SDK to create custom tokens. This package still supports the legacy `secret` option for existing setups.
+
+Use a Firebase Secret to generate these tokens (legacy). Firebase Secrets can be found by logging into the
 Firebase account and clicking on the Security tab in the Firebase Dashboard.
 
 **Security:** Never commit your Firebase secret or put it in frontend code. Load it from environment variables or a secure config (e.g. `process.env.FIREBASE_SECRET`) on the server only.
