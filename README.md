@@ -74,6 +74,6 @@ const { authData } = await firebaseLoginCustomAsync(firebaseRef, { uid: 'user-1'
 Please report issues to [ticket system](https://github.com/vergissberlin/firebase-login-custom/issues).
 Pull requests are welcome here! See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute (install locally, test, and releasing).
 
-## Thanks to {#thanks}
+## Thanks to …
 
 1. A special thanks to the developers of **NodeJS** and **Firebase**.
