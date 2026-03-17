@@ -70,7 +70,7 @@ export interface FirebaseLoginOption {
 }
 
 /** Option type for inputs where secret is not yet validated */
-type FirebaseLoginOptionInput = Omit<FirebaseLoginOption, 'secret'> & {
+export type FirebaseLoginOptionInput = Omit<FirebaseLoginOption, 'secret'> & {
   secret?: string;
 };
 
@@ -86,36 +86,60 @@ export interface FirebaseRef {
   ) => void;
 }
 
-const defaultOption: Required<Omit<FirebaseLoginOption, 'secret'>> & {
+/** Shape of auth errors passed to the callback by Firebase (with optional code). */
+export interface FirebaseAuthError extends Error {
+  code?: string;
+}
+
+const DEFAULT_OPTION: Required<Omit<FirebaseLoginOption, 'secret'>> & {
   secret?: string;
 } = {
   admin: false,
-  expires: 0,
   debug: false,
+  expires: 0,
   notBefore: 0,
 };
 
+const SECONDS_PER_DAY = 86400;
+
+/** User-facing messages for known Firebase auth error codes */
+const AUTH_ERROR_MESSAGES: Record<string, string> = {
+  INVALID_EMAIL: 'The specified user account email is invalid.',
+  INVALID_PASSWORD: 'The specified user account password is incorrect.',
+  INVALID_USER: 'The specified user account does not exist.',
+};
+
+function resolveOption(
+  input: FirebaseLoginOptionInput
+): Required<Omit<FirebaseLoginOption, 'secret'>> & { secret: string } {
+  const now = Date.now() / 1000;
+  return {
+    admin: typeof input.admin === 'boolean' ? input.admin : DEFAULT_OPTION.admin,
+    debug: typeof input.debug === 'boolean' ? input.debug : DEFAULT_OPTION.debug,
+    expires: typeof input.expires === 'number' ? input.expires : now + SECONDS_PER_DAY,
+    notBefore: typeof input.notBefore === 'number' ? input.notBefore : now,
+    secret: input.secret as string,
+  };
+}
+
+/**
+ * Custom login helper: generates a Firebase custom token and authenticates via the given ref.
+ * Validation errors throw synchronously; token or auth failures are reported to the callback.
+ */
 export class FirebaseLoginCustom {
+  /**
+   * @param ref - Firebase ref with `authWithCustomToken(token, callback)`
+   * @param data - Auth payload; must include `uid` (string)
+   * @param option - Options; must include `secret`. Optional: admin, debug, expires, notBefore
+   * @param callback - Called with (error, authData) when auth completes or token generation fails
+   */
   constructor(
     ref: FirebaseRef,
     data: AuthData = { uid: '' },
-    option: FirebaseLoginOptionInput = { ...defaultOption },
+    option: FirebaseLoginOptionInput = { ...DEFAULT_OPTION },
     callback: FirebaseLoginCallback = () => {}
   ) {
-    if (typeof option.admin !== 'boolean') {
-      option.admin = false;
-    }
-    if (typeof option.debug !== 'boolean') {
-      option.debug = false;
-    }
-    if (typeof option.expires !== 'number') {
-      option.expires = +new Date() / 1000 + 86400;
-    }
-    if (typeof option.notBefore !== 'number') {
-      option.notBefore = +new Date() / 1000;
-    }
-
-    if (typeof ref !== 'object') {
+    if (ref == null || typeof ref !== 'object') {
       throw new FirebaseLoginCustomValidationError('Ref must be an object!');
     }
     if (typeof data.uid !== 'string') {
@@ -128,14 +152,16 @@ export class FirebaseLoginCustom {
       throw new FirebaseLoginCustomValidationError('Callback must be a function!');
     }
 
+    const resolvedOption = resolveOption(option);
+
     let authToken: string;
     try {
-      const tokenGenerator = new FirebaseTokenGenerator(option.secret);
+      const tokenGenerator = new FirebaseTokenGenerator(resolvedOption.secret);
       authToken = tokenGenerator.createToken(data, {
-        admin: option.admin,
-        debug: option.debug,
-        expires: option.expires,
-        notBefore: option.notBefore,
+        admin: resolvedOption.admin,
+        debug: resolvedOption.debug,
+        expires: resolvedOption.expires,
+        notBefore: resolvedOption.notBefore,
       });
     } catch (err) {
       const callbackError =
@@ -149,27 +175,20 @@ export class FirebaseLoginCustom {
     ref.authWithCustomToken(authToken, (error, authData) => {
       let callbackError: Error | string | null = null;
       if (error) {
-        const err = error as { code?: string };
-        switch (err.code) {
-          case 'INVALID_EMAIL':
-            callbackError = 'The specified user account email is invalid.';
-            break;
-          case 'INVALID_PASSWORD':
-            callbackError = 'The specified user account password is incorrect.';
-            break;
-          case 'INVALID_USER':
-            callbackError = 'The specified user account does not exist.';
-            break;
-          default:
-            callbackError = 'Error logging user in: ' + String(error);
-        }
+        const authErr = error as FirebaseAuthError;
+        const knownMessage =
+          authErr?.code !== undefined ? AUTH_ERROR_MESSAGES[authErr.code] : undefined;
+        callbackError =
+          knownMessage !== undefined ? knownMessage : 'Error logging user in: ' + String(error);
       }
       callback(callbackError, authData);
     });
   }
 }
 
-/** Callable export for backward compatibility (use without `new`) */
+/**
+ * Callable form: same as `new FirebaseLoginCustom(...)`. Use without `new` for backward compatibility.
+ */
 function firebaseLoginCustom(
   ref: FirebaseRef,
   data?: AuthData,
@@ -179,7 +198,7 @@ function firebaseLoginCustom(
   new FirebaseLoginCustom(
     ref,
     data ?? { uid: '' },
-    option ?? { ...defaultOption },
+    option ?? { ...DEFAULT_OPTION },
     callback ?? (() => {})
   );
 }
