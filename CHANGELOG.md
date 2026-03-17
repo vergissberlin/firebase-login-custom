@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.0...v0.5.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* update CI workflow to remove conditional check for FIREBASE_ID in integration tests ([58f0f02](https://github.com/vergissberlin/firebase-login-custom/commit/58f0f02655972025357492eb1ef2d5cfa19a5186))
+
 ## [0.5.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.4.0...v0.5.0) (2026-03-17)
 
 
