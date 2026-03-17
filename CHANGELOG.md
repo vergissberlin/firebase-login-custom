@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.4](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.3...v0.5.4) (2026-03-17)
+
+
+### Bug Fixes
+
+* update CI and release workflows with enhanced comments and execution order ([8a268d7](https://github.com/vergissberlin/firebase-login-custom/commit/8a268d7fa3f61b7f71e8fa5017f6f12cf4b452ee))
+
 ## [0.5.3](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.2...v0.5.3) (2026-03-17)
 
 
