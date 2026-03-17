@@ -47,7 +47,21 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Check if version already published
+        id: npm_check
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view firebase-login-custom@$VERSION version 2>/dev/null; then
+            echo "already_published=true" >> $GITHUB_OUTPUT
+            echo "Version $VERSION is already on npm, skipping publish."
+          else
+            echo "already_published=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish to npm
+        if: steps.npm_check.outputs.already_published != 'true'
         run: |
           for i in 1 2 3; do
             pnpm publish --access public --no-git-checks && break
