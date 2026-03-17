@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.2...v0.5.3) (2026-03-17)
+
+
+### Bug Fixes
+
+* enhance CI workflow to check for already published version before npm publish ([204509c](https://github.com/vergissberlin/firebase-login-custom/commit/204509c0b5a3559136ab05415ac684332226f16c))
+
 ## [0.5.2](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.1...v0.5.2) (2026-03-17)
 
 
