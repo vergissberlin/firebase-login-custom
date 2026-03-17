@@ -1,8 +1,9 @@
+# Runs once per release: only on tag push (Release Please pushes the tag after merging the release PR).
+# Not triggered by release:published to avoid running twice for the same version.
+# Order: checkout → setup → install → build → check if on npm → publish (if not) → create GitHub Release.
 name: Release
 
 on:
-  release:
-    types: [published]
   push:
     tags:
       - 'v*'
@@ -26,7 +27,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
 
       - name: Install pnpm

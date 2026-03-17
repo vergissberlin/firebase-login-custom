@@ -1,3 +1,5 @@
+# Runs on every push/PR to main. Step order: checkout → setup → install → lint → typecheck
+# (no build needed) → unit tests (no build) → build → integration tests (need dist/).
 name: CI
 
 on:
