@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.5](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.4...v0.5.5) (2026-03-17)
+
+
+### Bug Fixes
+
+* update README to deprecate Firebase Secret usage for JWT generation in favor of Service Accounts ([79addb8](https://github.com/vergissberlin/firebase-login-custom/commit/79addb888adf5b62795e6c6eb0a09d0e6f509ee0))
+
 ## [0.5.4](https://github.com/vergissberlin/firebase-login-custom/compare/v0.5.3...v0.5.4) (2026-03-17)
 
 
