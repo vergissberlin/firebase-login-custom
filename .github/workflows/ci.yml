@@ -47,7 +47,6 @@ jobs:
         run: pnpm run build
 
       - name: Integration tests
-        if: ${{ secrets.FIREBASE_ID != '' }}
         env:
           FIREBASE_ID: ${{ secrets.FIREBASE_ID }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
