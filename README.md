@@ -6,7 +6,7 @@
 
 ## Authenticating Users with Email & Password
 
-To authenticate a user using [Custom Login](https://www.firebase.com/docs/web/guide/login/custom.html),
+To authenticate a user using [Custom Login](https://firebase.google.com/docs/auth/web/custom-auth),
 we must provide each client with a secure JWT that has been generated on a server.
 We provide several helper libraries for generating JWTs.
 Use a Firebase Secret to generate these tokens. Firebase Secrets can be found by logging into the
@@ -17,7 +17,7 @@ Firebase account and clicking on the Security tab in the Firebase Dashboard.
 This package is a wrapper to Firebase custom login including all dependencies
 with the exception of firebase itself.
 
-More information can be found in the [Firebase custom login documentation](https://www.firebase.com/docs/web/guide/login/custom.html).
+More information can be found in the [Firebase custom login documentation](https://firebase.google.com/docs/auth/web/custom-auth).
 
 ## Installation
 
