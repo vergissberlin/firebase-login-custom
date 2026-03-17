@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.4.0...v0.5.0) (2026-03-17)
+
+
+### Features
+
+* add promise-based API for firebaseLoginCustom and enhance documentation ([3cce996](https://github.com/vergissberlin/firebase-login-custom/commit/3cce9964d6852a0d5096d8c94e34c97946b9903c))
+
+
+### Bug Fixes
+
+* correct typos in package.json and README.md, and update tsconfig.json include paths ([a12b223](https://github.com/vergissberlin/firebase-login-custom/commit/a12b223a6e33f72798e1c59b290c5cd31399c7ba))
+
 ## [0.4.0](https://github.com/vergissberlin/firebase-login-custom/compare/v0.3.0...v0.4.0) (2026-03-17)
 
 
