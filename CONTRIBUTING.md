@@ -53,9 +53,9 @@ If the Release workflow has never run and nothing is on [npm](https://www.npmjs.
 
 1. **Secrets** (Settings → Secrets and variables → Actions):
    - **NPM_TOKEN** (required): npm auth token with publish permission. Create at [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~youruser/tokens) (Automation or Publish).
-   - **GH_PAT** (optional): GitHub Personal Access Token with `repo` scope. Only needed if the default `GITHUB_TOKEN` cannot create releases (e.g. in some org settings). If you use it, set the Release workflow's "Create GitHub Release" step to `GITHUB_TOKEN: ${{ secrets.GH_PAT }}`.
+   - **GH_PAT** (recommended for auto-release): A GitHub [Personal Access Token (classic)](https://github.com/settings/tokens) with `repo` scope. Release Please uses it to create the tag and GitHub Release when the release PR is merged. **Without GH_PAT**, GitHub does not trigger the Release workflow when Release Please publishes (events created by `GITHUB_TOKEN` do not start other workflows). With GH_PAT set, the Release workflow runs automatically and publishes to npm after each Release Please release. The same secret can be used in the Release workflow's "Create GitHub Release" step if `GITHUB_TOKEN` cannot create releases (e.g. in some org settings).
 
-2. **Version and tag (with Release Please)**: Use conventional commits (e.g. `feat:`, `fix:`, `chore:`). After pushing to `main`, Release Please will open or update a release PR. Merge that PR; Release Please creates the tag and GitHub Release. The Release workflow runs on **release published** (and on tag push), so it will build and publish to npm—ensure **NPM_TOKEN** is set in repository secrets.
+2. **Version and tag (with Release Please)**: Use conventional commits (e.g. `feat:`, `fix:`, `chore:`). After pushing to `main`, Release Please will open or update a release PR. Merge that PR; Release Please creates the tag and GitHub Release. If **GH_PAT** is set, the Release workflow runs automatically and publishes to npm. Otherwise, run the Release workflow manually (Actions → Release → Run workflow) after merging the release PR.
 
    **Without Release Please** (manual): Bump version in `package.json`, commit, push a version tag:
 

@@ -1,3 +1,6 @@
+# Creates/updates release PRs from conventional commits. When the release PR is merged,
+# Release Please creates the tag and GitHub Release. To have the Release workflow
+# (npm publish) run automatically after that, set GH_PAT to a PAT (see CONTRIBUTING.md).
 name: release-please
 
 on:
@@ -16,6 +19,8 @@ jobs:
       - name: Run release-please
         uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # PAT (GH_PAT) triggers the Release workflow when this action creates
+          # a release; GITHUB_TOKEN does not (GitHub blocks it to prevent loops).
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
